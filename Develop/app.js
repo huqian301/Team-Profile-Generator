@@ -89,7 +89,8 @@ inquirer
         myteam.push(new Manager(res.name, res.id, res.email, res.officeNumber));
         // console.log(myteam);
         init();
-;    })
+        ;
+    })
 
 function init() {
     inquirer
@@ -124,18 +125,18 @@ function engineer() {
             // console.log(myteam);
             init();
         })
-    }
+}
 
 function intern() {
-                inquirer
-                    .prompt(iQuestions)
-                    .then(res => {
-                        // console.log(res);
-                        myteam.push(new Intern(res.name, res.id, res.email, res.school));
-                        // console.log(myteam);
-                        init();
-                    })
-                }
+    inquirer
+        .prompt(iQuestions)
+        .then(res => {
+            // console.log(res);
+            myteam.push(new Intern(res.name, res.id, res.email, res.school));
+            // console.log(myteam);
+            init();
+        })
+}
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
 // generate and return a block of HTML including templated divs for each employee!
