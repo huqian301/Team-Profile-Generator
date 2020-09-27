@@ -10,10 +10,132 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
+const mQuestions = [
+    {
+        type: "input",
+        name: "name",
+        message: "What is the manager's name?"
+    },
+    {
+        type: "input",
+        name: "id",
+        message: "What is the manager's Id?"
+    },
+    {
+        type: "input",
+        name: "email",
+        message: "What is the manager's email?"
+    },
+    {
+        type: "input",
+        name: "officeNumber",
+        message: "What is the manager's office number?"
+    }
+];
 
+const eQuestions = [
+    {
+        type: "input",
+        name: "name",
+        message: "What is the Engineer's name?"
+    },
+    {
+        type: "input",
+        name: "id",
+        message: "What is the Engineer's Id?"
+    },
+    {
+        type: "input",
+        name: "email",
+        message: "What is the Engineer's email?"
+    },
+    {
+        type: "input",
+        name: "github",
+        message: "What is the Engineer's github username?"
+    }
+];
+
+const iQuestions = [
+    {
+        type: "input",
+        name: "name",
+        message: "What is the Intern's name?"
+    },
+    {
+        type: "input",
+        name: "id",
+        message: "What is the Intern's Id?"
+    },
+    {
+        type: "input",
+        name: "email",
+        message: "What is the Intern's email?"
+    },
+    {
+        type: "input",
+        name: "school",
+        message: "What is the school that Intern is attending?"
+    }
+];
+
+const myteam = [];
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
+inquirer
+    .prompt(mQuestions)
+    .then(res => {
+        // console.log(res);
+        myteam.push(new Manager(res.name, res.id, res.email, res.officeNumber));
+        // console.log(myteam);
+        init();
+;    })
 
+function init() {
+    inquirer
+        .prompt({
+            type: "list",
+            name: "choice",
+            message: "What is the employee's role?",
+            choices: ["engineer", "intern", "render"],
+        })
+        .then(res => {
+            // console.log(res.choice);
+            if (res.choice === "engineer") {
+                engineer();
+            } else if (res.choice === "intern") {
+                intern();
+            } else {
+                const html = render(myteam)
+                // console.log(html);
+                fs.writeFile(outputPath, html, function (err) {
+                    console.log(err);
+                })
+            }
+        })
+}
+
+function engineer() {
+    inquirer
+        .prompt(eQuestions)
+        .then(res => {
+            // console.log(res);
+            myteam.push(new Engineer(res.name, res.id, res.email, res.github));
+            // console.log(myteam);
+            init();
+        })
+    }
+
+function intern() {
+                inquirer
+                    .prompt(iQuestions)
+                    .then(res => {
+                        // console.log(res);
+                        myteam.push(new Intern(res.name, res.id, res.email, res.school));
+                        // console.log(myteam);
+                        init();
+                    })
+                }
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
 // generate and return a block of HTML including templated divs for each employee!
